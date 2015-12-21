@@ -39,3 +39,33 @@ func BenchmarkStringToBytes(b *testing.B) {
 		_ = string551.StringToBytes(src)
 	}
 }
+
+func TestBytesToString(t *testing.T) {
+	src := "テスト用文字列"
+	retBytes := string551.StringToBytes(src)
+	ret := string551.BytesToString(retBytes)
+
+	if ret != src {
+		t.Errorf("string への変換に失敗しました。\nData: %s\nSample: %#v\n", ret, src)
+	}
+}
+
+func BenchmarkByteToStringNormal(b *testing.B) {
+	src := "テスト用文字列"
+	retBytes := string551.StringToBytes(src)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string(retBytes)
+	}
+}
+
+func BenchmarkByteToString(b *testing.B) {
+	src := "テスト用文字列"
+	retBytes := string551.StringToBytes(src)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.BytesToString(retBytes)
+	}
+}
