@@ -2,6 +2,7 @@ package string551_test
 
 import (
 	"github.com/go51/string551"
+	"strings"
 	"testing"
 )
 
@@ -67,5 +68,43 @@ func BenchmarkByteToString(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = string551.BytesToString(retBytes)
+	}
+}
+
+func TestJoin(t *testing.T) {
+	src := []string{"Test", ",", "String", ",", "Join", ",", "Comma"}
+	ret := string551.Join(src...)
+	ret = "Test" + "," + "String" + "," + "Join" + "," + "Comma"
+
+	if ret != "Test,String,Join,Comma" {
+		t.Errorf("文字列の結合に失敗しました。\nData: %s\nSample: %#v\n", ret, src)
+	}
+
+}
+
+func BenchmarkJoinNormal(b *testing.B) {
+	src := []string{"Test", "String", "Join", "Comma"}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = strings.Join(src, ",")
+	}
+}
+
+func BenchmarkJoinPlus(b *testing.B) {
+	src := []string{"Test", "String", "Join", "Comma"}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = src[0] + "," + src[1] + "," + src[2] + "," + src[3]
+	}
+}
+
+func BenchmarkJoin(b *testing.B) {
+	src := []string{"Test", ",", "String", ",", "Join", ",", "Comma"}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.Join(src...)
 	}
 }
