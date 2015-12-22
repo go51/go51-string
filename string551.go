@@ -26,3 +26,23 @@ func Join(src ...string) string {
 	}
 	return BytesToString(ret)
 }
+
+func CamelCase(src string) string {
+	bytes := StringToBytes(src)
+	ret := make([]byte, 0, len(bytes))
+	lowLine := true
+	for i := 0; i < len(bytes); i++ {
+		if bytes[i] == 0x5F {
+			lowLine = true
+			continue
+		}
+		if lowLine {
+			ret = append(ret, bytes[i]-0x20)
+			lowLine = false
+		} else {
+			ret = append(ret, bytes[i])
+		}
+	}
+
+	return BytesToString(ret)
+}

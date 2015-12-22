@@ -108,3 +108,21 @@ func BenchmarkJoin(b *testing.B) {
 		_ = string551.Join(src...)
 	}
 }
+
+func TestCamelCase(t *testing.T) {
+	src := "test_camel_case_t__e__s__t__c__a__m__e__l__c__a__s__e__"
+	camel := string551.CamelCase(src)
+
+	if camel != "TestCamelCaseTESTCAMELCASE" {
+		t.Errorf("キャメルケースへの変換に失敗しました。\nData: %s\nCamel: %s\n", src, camel)
+	}
+}
+
+func BenchmarkCamelCase(b *testing.B) {
+	src := "test_camel_case_t__e__s__t__c__a__m__e__l__c__a__s__e__"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.CamelCase(src)
+	}
+}
