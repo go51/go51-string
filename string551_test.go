@@ -126,3 +126,21 @@ func BenchmarkCamelCase(b *testing.B) {
 		_ = string551.CamelCase(src)
 	}
 }
+
+func TestSnakeCase(t *testing.T) {
+	src := "TestSnakeCaseTESTSNAKECASE"
+	snake := string551.SnakeCase(src)
+
+	if snake != "test_snake_case_t_e_s_t_s_n_a_k_e_c_a_s_e" {
+		t.Errorf("キャメルケースへの変換に失敗しました。\nData: %s\nSnake: %s\n", src, snake)
+	}
+}
+
+func BenchmarkSnakeCase(b *testing.B) {
+	src := "TestSnakeCaseTESTSNAKECASE"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.SnakeCase(src)
+	}
+}
