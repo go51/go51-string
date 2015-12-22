@@ -46,3 +46,21 @@ func CamelCase(src string) string {
 
 	return BytesToString(ret)
 }
+
+func SnakeCase(src string) string {
+	bytes := StringToBytes(src)
+
+	ret := make([]byte, 0, len(bytes)+10)
+	for i := 0; i < len(bytes); i++ {
+		if 0x41 <= bytes[i] && bytes[i] <= 0x5A { // 0x41 - 0x5A => "A" - "Z"
+			if i != 0 {
+				ret = append(ret, 0x5F) // 0x5f => _
+			}
+			ret = append(ret, bytes[i]+0x20) // "A" => "a", "B" => "b"
+		} else {
+			ret = append(ret, bytes[i])
+		}
+	}
+
+	return BytesToString(ret)
+}
