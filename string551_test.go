@@ -144,3 +144,39 @@ func BenchmarkSnakeCase(b *testing.B) {
 		_ = string551.SnakeCase(src)
 	}
 }
+
+func TestReplace(t *testing.T) {
+	src := "TestSplitString"
+	old := "Split"
+	new := "Replace"
+
+	ret := string551.Replace(src, old, new)
+	if ret != "TestReplaceString" {
+		t.Errorf("文字列の置換に失敗しました。\nData: %s\nOld: %s\nNew: %s\n", src, old, new)
+	}
+
+}
+
+func BenchmarkReplaceNormal(b *testing.B) {
+	src := "TestSplitString"
+	old := "Split"
+	new := "Replace"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = strings.Replace(src, old, new, -1)
+	}
+
+}
+
+func BenchmarkReplace(b *testing.B) {
+	src := "TestSplitString"
+	old := "Split"
+	new := "Replace"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.Replace(src, old, new)
+	}
+
+}

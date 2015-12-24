@@ -64,3 +64,29 @@ func SnakeCase(src string) string {
 
 	return BytesToString(ret)
 }
+
+func Replace(src, old, new string) string {
+	srcBytes := StringToBytes(src)
+	oldBytes := StringToBytes(old)
+	newBytes := StringToBytes(new)
+
+	retByte := make([]byte, 0, len(srcBytes))
+
+	i := 0
+	for i = 0; i <= len(srcBytes)-len(oldBytes); i++ {
+		if srcBytes[i] == oldBytes[0] {
+			if BytesToString(oldBytes) == BytesToString(srcBytes[i:][:len(oldBytes)]) {
+				retByte = append(retByte, newBytes...)
+				i += len(oldBytes) - 1
+			} else {
+				retByte = append(retByte, srcBytes[i])
+			}
+		} else {
+			retByte = append(retByte, srcBytes[i])
+		}
+	}
+	retByte = append(retByte, srcBytes[i:]...)
+
+	return BytesToString(retByte)
+
+}
