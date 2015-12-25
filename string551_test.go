@@ -203,3 +203,41 @@ func BenchmarkSplit(b *testing.B) {
 		_ = string551.Split(src, separate)
 	}
 }
+
+func TestRight(t *testing.T) {
+	src := "test_split_string"
+	length1 := 3
+	length2 := len(src)
+	length3 := len(src) + 1
+
+	ret1 := string551.Right(src, length1)
+
+	if ret1 != "ing" {
+		t.Errorf("文字列の取得（右）に失敗しました。\nData: %s\nLen: %d\nRet: %#v\n", src, length1, ret1)
+	}
+
+	ret2 := string551.Right(src, length2)
+
+	if ret2 != src {
+		t.Errorf("文字列の取得（右）に失敗しました。\nData: %s\nLen: %d\nRet: %#v\n", src, length2, ret2)
+	}
+
+	defer func() {
+		if err := recover(); err == nil {
+			t.Errorf("指定文字数が超えているのに Panic が発生していません。\nData: %s\nLen: %d\n", src, length3)
+		}
+	}()
+
+	_ = string551.Right(src, length3)
+
+}
+
+func BenchmarkRight(b *testing.B) {
+	src := "test_split_string"
+	length := 3
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.Right(src, length)
+	}
+}
