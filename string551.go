@@ -1,6 +1,9 @@
 package string551
 
-import "unsafe"
+import (
+	"strings"
+	"unsafe"
+)
 
 func StringToBytes(src string) []byte {
 	return *(*[]byte)(unsafe.Pointer(&src))
@@ -89,4 +92,8 @@ func Replace(src, old, new string) string {
 
 	return BytesToString(retByte)
 
+}
+
+func Split(src, separate string) []string {
+	return strings.Split(src, separate)
 }

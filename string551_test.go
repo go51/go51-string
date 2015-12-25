@@ -180,3 +180,26 @@ func BenchmarkReplace(b *testing.B) {
 	}
 
 }
+
+func TestSplit(t *testing.T) {
+	src := "test_split_string"
+	separate := "_"
+
+	ret := string551.Split(src, separate)
+
+	if ret[0] != "test" || ret[1] != "split" || ret[2] != "string" {
+		t.Errorf("文字列の分割に失敗しました。\nData: %s\nSeparate: %s\nRet: %#v\n", src, separate, ret)
+
+	}
+
+}
+
+func BenchmarkSplit(b *testing.B) {
+	src := "test_split_string"
+	separate := "_"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.Split(src, separate)
+	}
+}
