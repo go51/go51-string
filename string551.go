@@ -1,6 +1,7 @@
 package string551
 
 import (
+	"errors"
 	"strings"
 	"unsafe"
 )
@@ -96,4 +97,13 @@ func Replace(src, old, new string) string {
 
 func Split(src, separate string) []string {
 	return strings.Split(src, separate)
+}
+
+func Right(src string, length int) string {
+	if len(src) < length {
+		panic(errors.New("切り取り指定のバイト数が文字列長を超えました。"))
+		return ""
+	}
+
+	return src[len(src)-length : len(src)]
 }
