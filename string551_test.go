@@ -241,3 +241,21 @@ func BenchmarkRight(b *testing.B) {
 		_ = string551.Right(src, length)
 	}
 }
+
+func TestLower(t *testing.T) {
+	src := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	lower := string551.Lower(src)
+
+	if lower != "abcdefghijklmnopqrstuvwxyz" {
+		t.Errorf("小文字への変換に失敗しました。\nData: %s\nRet: %#v\n", src, lower)
+	}
+}
+
+func BenchmarkLower(b *testing.B) {
+	src := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.Lower(src)
+	}
+}

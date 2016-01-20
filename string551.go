@@ -107,3 +107,16 @@ func Right(src string, length int) string {
 
 	return src[len(src)-length : len(src)]
 }
+
+func Lower(src string) string {
+	bytes := StringToBytes(src)
+	ret := make([]byte, 0, len(bytes))
+	for i := 0; i < len(bytes); i++ {
+		if 0x41 <= bytes[i] && bytes[i] <= 0x5A { // 0x41 - 0x5A => "A" - "Z"
+			ret = append(ret, bytes[i]+0x20) // 0x61 - 0x7A => "a" - "z"
+		} else {
+			ret = append(ret, bytes[i])
+		}
+	}
+	return BytesToString(ret)
+}
