@@ -1,6 +1,9 @@
 package string551_test
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+	"github.com/go51/secure551"
 	"github.com/go51/string551"
 	"strings"
 	"testing"
@@ -69,6 +72,60 @@ func BenchmarkByteToString(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = string551.BytesToString(retBytes)
 	}
+}
+
+func TestHexBytesToString(t *testing.T) {
+
+	prefix := "string551"
+	sid := secure551.Hash()
+	name := "user"
+	key := prefix + ":" + sid + ":" + name
+
+	hash := md5.New()
+	bytes := string551.StringToBytes(key)
+	hash.Write(bytes)
+	hexBytes := hash.Sum(nil)
+	result := hex.EncodeToString(hexBytes)
+	ret := string551.HexBytesToString(hexBytes)
+
+	if result != ret {
+		t.Errorf("string への変換に失敗しました。\nKey: %s\nResult 1: %#v\nResult 2: %#v\n", key, result, ret)
+	}
+
+}
+
+func BenchmarkHexBytesToStringNomal(b *testing.B) {
+	prefix := "string551"
+	sid := secure551.Hash()
+	name := "user"
+
+	hash := md5.New()
+	bytes := string551.StringToBytes(prefix + ":" + sid + ":" + name)
+	hash.Write(bytes)
+	hexBytes := hash.Sum(nil)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = hex.EncodeToString(hexBytes)
+	}
+
+}
+
+func BenchmarkHexBytesToString(b *testing.B) {
+	prefix := "string551"
+	sid := secure551.Hash()
+	name := "user"
+
+	hash := md5.New()
+	bytes := string551.StringToBytes(prefix + ":" + sid + ":" + name)
+	hash.Write(bytes)
+	hexBytes := hash.Sum(nil)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.HexBytesToString(hexBytes)
+	}
+
 }
 
 func TestJoin(t *testing.T) {

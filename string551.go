@@ -6,12 +6,24 @@ import (
 	"unsafe"
 )
 
+var byteList []byte = StringToBytes("0123456789abcdef")
+
 func StringToBytes(src string) []byte {
 	return *(*[]byte)(unsafe.Pointer(&src))
 }
 
 func BytesToString(bytes []byte) string {
 	return *(*string)(unsafe.Pointer(&bytes))
+}
+
+func HexBytesToString(hexBytes []byte) string {
+	ret := make([]byte, 0, len(hexBytes)*2)
+	for i := 0; i < len(hexBytes); i++ {
+		ret = append(ret, byteList[hexBytes[i]/16])
+		ret = append(ret, byteList[hexBytes[i]%16])
+	}
+
+	return BytesToString(ret)
 }
 
 func Join(src ...string) string {
