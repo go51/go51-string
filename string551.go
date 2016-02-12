@@ -68,7 +68,8 @@ func SnakeCase(src string) string {
 
 	ret := make([]byte, 0, len(bytes)+10)
 	for i := 0; i < len(bytes); i++ {
-		if 0x41 <= bytes[i] && bytes[i] <= 0x5A { // 0x41 - 0x5A => "A" - "Z"
+		if 0x41 <= bytes[i] && bytes[i] <= 0x5A {
+			// 0x41 - 0x5A => "A" - "Z"
 			if i != 0 {
 				ret = append(ret, 0x5F) // 0x5f => _
 			}
@@ -124,11 +125,31 @@ func Lower(src string) string {
 	bytes := StringToBytes(src)
 	ret := make([]byte, 0, len(bytes))
 	for i := 0; i < len(bytes); i++ {
-		if 0x41 <= bytes[i] && bytes[i] <= 0x5A { // 0x41 - 0x5A => "A" - "Z"
+		if 0x41 <= bytes[i] && bytes[i] <= 0x5A {
+			// 0x41 - 0x5A => "A" - "Z"
 			ret = append(ret, bytes[i]+0x20) // 0x61 - 0x7A => "a" - "z"
 		} else {
 			ret = append(ret, bytes[i])
 		}
 	}
 	return BytesToString(ret)
+}
+
+func RightRune(src string, length int, suffix ...string) string {
+
+	rSrc := []rune(src)
+	if len(rSrc) <= length {
+		return src
+	}
+
+	ret := ""
+	for i := 0; i < length; i++ {
+		ret = Join(ret, string(rSrc[i]))
+	}
+
+	if len(suffix) == 0 {
+		return ret
+	} else {
+		return ret + suffix[0]
+	}
 }

@@ -316,3 +316,32 @@ func BenchmarkLower(b *testing.B) {
 		_ = string551.Lower(src)
 	}
 }
+
+func TestRightRightRune(t *testing.T) {
+	src := "あいうえおかきくけこさしすせそたちつてと"
+	length := 10
+	suffix := "..."
+
+	ret := string551.RightRune(src, length, suffix)
+
+	if ret != "あいうえおかきくけこ..." {
+		t.Errorf("文字列のカットに失敗しました。\nRet: %s                                     ", ret)
+	}
+
+	ret = string551.RightRune(src, length)
+
+	if ret != "あいうえおかきくけこ" {
+		t.Errorf("文字列のカットに失敗しました。\nRet: %s                                     ", ret)
+	}
+}
+
+func BenchmarkLRightRune(b *testing.B) {
+	src := "あいうえおかきくけこさしすせそたちつてと"
+	length := 10
+	suffix := "..."
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = string551.RightRune(src, length, suffix)
+	}
+}
