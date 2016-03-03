@@ -83,16 +83,31 @@ func SnakeCase(src string) string {
 }
 
 func Replace(src, old, new string) string {
+	if src == old {
+		return new
+	}
+	if new == "" {
+		src = strings.Trim(src, old)
+	}
+
 	srcBytes := StringToBytes(src)
 	oldBytes := StringToBytes(old)
 	newBytes := StringToBytes(new)
+
+	if len(srcBytes) == 0 {
+		return src
+	}
+	if len(srcBytes) < len(oldBytes) {
+		return src
+	}
 
 	retByte := make([]byte, 0, len(srcBytes))
 
 	i := 0
 	for i = 0; i <= len(srcBytes)-len(oldBytes); i++ {
 		if srcBytes[i] == oldBytes[0] {
-			if BytesToString(oldBytes) == BytesToString(srcBytes[i:][:len(oldBytes)]) {
+			cut := len(oldBytes)
+			if BytesToString(oldBytes) == BytesToString(((srcBytes[i:])[:cut])) {
 				retByte = append(retByte, newBytes...)
 				i += len(oldBytes) - 1
 			} else {

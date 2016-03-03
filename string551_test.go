@@ -214,6 +214,18 @@ func TestReplace(t *testing.T) {
 
 }
 
+func TestReplace2(t *testing.T) {
+	src := "    "
+	old := " "
+	new := ""
+
+	ret := string551.Replace(src, old, new)
+	if ret != "" {
+		t.Errorf("文字列の置換に失敗しました。\nData: \"%s\"\nOld: \"%s\"\nNew: \"%s\"\n", src, old, new)
+	}
+
+}
+
 func BenchmarkReplaceNormal(b *testing.B) {
 	src := "TestSplitString"
 	old := "Split"
