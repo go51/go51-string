@@ -199,3 +199,45 @@ func UrlEncode(src string) string {
 
 	return result
 }
+
+func Canonical(src string) string {
+	// ToLower
+	src = Lower(src)
+
+	return src
+}
+
+func CanonicalEmail(email string) string {
+	// Canonical
+	email = Canonical(email)
+
+	// googlemail.com => gmail.com
+	email = Replace(email, "googlemail.com", "gmail.com")
+	// Remove Space and "
+	email = Replace(email, " ", "")
+	email = Replace(email, "\"", "")
+
+	b := StringToBytes(email)
+	ret := make([]byte, 0, len(b))
+
+	plus := false
+	atmark := false
+	for i := 0; i < len(b); i++ {
+		if b[i] == 0x2B { // 0x2B => "+"
+			plus = true
+		}
+		if b[i] == 0x40 { // 0x40 => "@"
+			plus = false
+			atmark = true
+		}
+		if atmark {
+			ret = append(ret, b[i])
+		} else {
+			if !plus && b[i] != 0x5F && b[i] != 0x2E { // 0x5F => "_" / 0x2E => "."
+				ret = append(ret, b[i])
+			}
+		}
+	}
+
+	return BytesToString(ret)
+}
